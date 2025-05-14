@@ -1,0 +1,31 @@
+{
+  "name": "agents-from-scratch-gemini",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx index.ts",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@google/genai": "^0.12.0",
+    "colors": "^1.4.0",
+    "dotenv": "^16.5.0",
+    "lowdb": "^7.0.1",
+    "ora": "^8.2.0",
+    "tsx": "^4.19.4",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.12.0",
+    "typescript": "^5.8.3"
+  },
+  "volta": {
+    "node": "20.17.0"
+  }
+}
