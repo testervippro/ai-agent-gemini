@@ -1,4 +1,5 @@
 import { dadJokeToolDefinition } from './dadJoke'
+import { generateImageToolDefinition } from './generateImage'
 import { redditToolDefinition } from './reddit'
 
-export const tools = [redditToolDefinition, dadJokeToolDefinition]
+export const tools = [redditToolDefinition, dadJokeToolDefinition, generateImageToolDefinition]
