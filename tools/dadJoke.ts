@@ -1,4 +1,5 @@
 import { Type, FunctionDeclaration } from '@google/genai'
+import { ToolFn } from '../types'
 
 export const dadJokeToolDefinition: FunctionDeclaration = {
   name: 'dad_joke',
@@ -7,8 +8,9 @@ export const dadJokeToolDefinition: FunctionDeclaration = {
     type: Type.OBJECT,
   },
 }
+type Args = typeof dadJokeToolDefinition.parameters
 
-export const dadJoke = async () => {
+export const dadJoke: ToolFn<Args, string> = async () => {
   const res = await fetch('https://icanhazdadjoke.com/', {
     headers: {
       Accept: 'application/json',

@@ -1,4 +1,5 @@
 import { Type, FunctionDeclaration } from '@google/genai'
+import { ToolFn } from '../types'
 
 export const redditToolDefinition: FunctionDeclaration = {
   name: 'reddit',
@@ -8,13 +9,11 @@ export const redditToolDefinition: FunctionDeclaration = {
       'Use this tool to get the latest posts from Reddit. It will return a JSON object with the title, link, subreddit, author, and upvotes of each post.',
   },
 }
+type Args = typeof redditToolDefinition.parameters
 
-export const reddit = async ({
+export const reddit: ToolFn<Args, string> = async ({
   toolArgs,
   userMessage,
-}: {
-  toolArgs?: object
-  userMessage?: string
 }) => {
   const { data } = await fetch('https://www.reddit.com/.json?limit=5').then(
     (res) => res.json(),
