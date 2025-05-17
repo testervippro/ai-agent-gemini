@@ -17,57 +17,68 @@ export const runAgent = async ({
     role: 'user',
     parts: [{ text: userMessage }],
   })
-  const loader = showLoader('Thinking...')
 
-  const history = await getMessages()
-  const response = await runLLM({
-    history,
-    message: userMessage,
-    tools,
-  })
   await addMessages([
     {
       role: 'user',
       parts: [{ text: userMessage }],
     },
   ])
-  loader.stop()
 
-  if (!response) {
-    throw new Error('No Response Present')
-  }
+  const loader = showLoader('Thinking...')
 
-  // Saving the response in db
-  await addMessages([response])
+  while (true) {
+    const contents = await getMessages()
 
-  logMessage(response)
+    const response = await runLLM({
+      contents,
+      tools,
+    })
 
-  // if response is a function call
-  if (response.parts && response.parts[0].functionCall) {
-    const toolResponse = await runTool(
-      response.parts[0].functionCall,
-      userMessage,
-    )
+    if (!response) {
+      throw new Error('No Response Present')
+    }
 
-    // adding the tool response to context
-    await addMessages([
-      {
-        role: 'model',
-        parts: [
-          {
-            functionResponse: {
-              name: response.parts[0].functionCall.name,
-              response: { json: JSON.stringify(toolResponse) },
+    let content = response.candidates?.[0]?.content
+
+    if (!content) {
+      throw new Error('No Content')
+    }
+
+    await addMessages([content])
+
+    logMessage(content)
+
+    // using response.text directly generate a warning as this contains functionCalls in content parts
+    if (!response.functionCalls && response.text) {
+      loader.stop()
+      return getMessages()
+    }
+
+    // if response is a function call
+    if (response.functionCalls && response.functionCalls.length > 0) {
+      const tool_call = response.functionCalls[0]
+
+      loader.update(`executing: ${tool_call.name}`)
+
+      const toolResponse = await runTool(tool_call, userMessage)
+
+      // adding the tool response to context
+      await addMessages([
+        {
+          role: 'user',
+          parts: [
+            {
+              functionResponse: {
+                name: tool_call.name,
+                response: { json: JSON.stringify(toolResponse) },
+              },
             },
-          },
-        ],
-      },
-    ])
+          ],
+        },
+      ])
 
-    console.log('TOOL RESPONSE', toolResponse)
-  }
-
-  if (response.parts && response.parts[0].text) {
-    logMessage(response)
+      loader.update(`executed: ${tool_call.name}`)
+    }
   }
 }
