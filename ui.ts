@@ -23,7 +23,6 @@ export const logMessage = (message: AIMessage) => {
   }
 
   const role = message.role
-  const color: string = roleColors[role as keyof typeof roleColors] || 'red' // default to white
 
   // Log user messages (only have content)
   if (role === 'user') {
@@ -42,7 +41,7 @@ export const logMessage = (message: AIMessage) => {
     }
 
     // If has content, log it
-    if (message.parts) {
+    if (message.parts && message.parts[0].text) {
       console.log(colors.green(`\n[ASSISTANT]`))
       console.log(`${message.parts[0].text}\n`)
     }
