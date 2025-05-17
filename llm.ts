@@ -5,19 +5,17 @@ import { systemPrompt } from './systemPrompt'
 export const runLLM = async ({
   model = 'gemini-2.0-flash',
   temperature = 0.1,
-  history = undefined,
-  message,
+  contents,
   tools,
 }: {
   model?: string
   temperature?: number
-  message: string
-  history?: Content[]
+  contents: Content[]
   tools: FunctionDeclaration[]
 }) => {
-  const chat = gemini_ai.chats.create({
+  const response = await gemini_ai.models.generateContent({
     model,
-    history,
+    contents,
     config: {
       temperature,
       systemInstruction: systemPrompt,
@@ -29,9 +27,5 @@ export const runLLM = async ({
     },
   })
 
-  const response = await chat.sendMessage({
-    message,
-  })
-
-  return response.candidates![0].content
+  return response
 }
