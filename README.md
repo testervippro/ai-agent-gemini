@@ -66,6 +66,15 @@ npm run dev "<your message>"
 bun run index.ts "<your message>"
 ```
 
+## Example 
+```bash
+npm run dev "Get the latest posts from Reddit"
+```
+```bash
+npm run dev "Láy thông tin mới nhất từ Reddit"
+```
+
+
 ---
 
 ## 🗂️ Project Structure
