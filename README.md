@@ -28,6 +28,7 @@ This project creates an AI agent from scratch using Node.js and **Google's Gemin
 
 👉 Get your Gemini API key here: [Google AI Studio API Key](https://aistudio.google.com/u/1/apikey)
 
+Click Create API key -> Choose Project -> Generate key -> Copy
 ---
 
 ### 📦 Setup Instructions
