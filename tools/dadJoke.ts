@@ -16,5 +16,6 @@ export const dadJoke: ToolFn<Args, string> = async () => {
       Accept: 'application/json',
     },
   })
+  // @ts-ignore
   return (await res.json()).joke
 }

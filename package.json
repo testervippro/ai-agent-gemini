@@ -18,10 +18,12 @@
     "dotenv": "^16.5.0",
     "lowdb": "^7.0.1",
     "ora": "^8.2.0",
+    "playwright": "^1.54.1",
     "tsx": "^4.19.4",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.54.1",
     "@types/node": "^22.12.0",
     "typescript": "^5.8.3"
   },

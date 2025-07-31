@@ -2,6 +2,7 @@ import { reddit } from './tools/reddit'
 import { dadJoke } from './tools/dadJoke'
 import { FunctionCall } from '@google/genai'
 import { generateImage } from './tools/generateImage'
+import { runTest } from './tools/playwright'
 
 export const runTool = async (toolCall: FunctionCall, userMessage: string) => {
   const input = {
@@ -17,6 +18,8 @@ export const runTool = async (toolCall: FunctionCall, userMessage: string) => {
       return dadJoke(input)
     case 'reddit':
       return reddit(input)
+    case 'run_playwright_test':
+      return runTest(input)
     default:
       throw new Error(`Unknown tool: ${toolCall.name}`)
   }

@@ -11,13 +11,16 @@ export const redditToolDefinition: FunctionDeclaration = {
 }
 type Args = typeof redditToolDefinition.parameters
 
+
 export const reddit: ToolFn<Args, string> = async ({
   toolArgs,
   userMessage,
 }) => {
+  // @ts-ignore
   const { data } = await fetch('https://www.reddit.com/.json?limit=5').then(
     (res) => res.json(),
   )
+  
 
   const relevantInfo = data.children.map((child: any) => ({
     title: child.data.title,
